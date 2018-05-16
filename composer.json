@@ -1,0 +1,30 @@
+{
+    "name": "masterflash-ru/feed-yml",
+    "description": "обработчик ленты YML",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "zf",
+        "zendframework",
+        "YML"
+    ],
+    "homepage": "https://masterflash.ru/",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.0",
+        "zendframework/zend-feed": "^2.9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mf\\FeedYML\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mf\\FeedYML\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+}
