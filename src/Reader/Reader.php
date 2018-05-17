@@ -15,20 +15,14 @@ class Reader extends ZFReader
     /**
      * Feed type constants
      */
-    const TYPE_YML          = 'yml';
+    const TYPE_YML = 'yml';
     
-    /**
-    * нормализованый XML документ, без 
-    * неожиданных символов, разрушающих работу парсера
-    * /
-    private static $normal_xml_doc;
-*/
-    
+
     /**
      * Imports a feed from a file located at $filename.
      *
      * @param  string $filename
-     * @throws Exception\RuntimeException
+     * @throws Exception
      * @return Feed\FeedInterface
      */
     public static function importFile($filename)
@@ -54,25 +48,16 @@ class Reader extends ZFReader
     {
         $trimmed = trim($string);
         if (! is_string($string) || empty($trimmed)) {
-            throw new Exception\InvalidArgumentException('Only non empty strings are allowed as input');
+            throw new Exception('Only non empty strings are allowed as input');
         }
 
         $libxmlErrflag = libxml_use_internal_errors(true);
         $oldValue = libxml_disable_entity_loader(true);
         $dom = new DOMDocument;
         
-       
-        $string=iconv("windows-1251","windows-1251//IGNORE",$string);
-        //$string=iconv("UTF-8","UTF-8//IGNORE",$string);
+       $string=self::normalizeXML($string);
         
         $status = $dom->loadXML(trim($string),LIBXML_BIGLINES | LIBXML_PARSEHUGE);
-       /* foreach ($dom->childNodes as $child) {
-            if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                throw new Exception(
-                    'Invalid XML: Detected use of illegal DOCTYPE'
-                );
-            }
-        }*/
         libxml_disable_entity_loader($oldValue);
         libxml_use_internal_errors($libxmlErrflag);
 
@@ -90,9 +75,6 @@ class Reader extends ZFReader
 
         $type = static::detectType($dom);
         
-        //менеджер расширений
-        //$manager   = static::getExtensionManager();
-
         if ($type == self::TYPE_YML) {
             $reader = new Feed\Yml($dom, $type);
         }  else {
@@ -122,14 +104,8 @@ class Reader extends ZFReader
             ini_set('track_errors', 1);
             $oldValue = libxml_disable_entity_loader(true);
             $dom = new DOMDocument;
+            $feed=self::normalizeXML($feed);
             $status = $dom->loadXML($feed,LIBXML_BIGLINES | LIBXML_PARSEHUGE);
-            foreach ($dom->childNodes as $child) {
-                if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                    throw new Exception\InvalidArgumentException(
-                        'Invalid XML: Detected use of illegal DOCTYPE'
-                    );
-                }
-            }
             libxml_disable_entity_loader($oldValue);
             ini_restore('track_errors');
             ErrorHandler::stop();
@@ -141,11 +117,11 @@ class Reader extends ZFReader
                         $phpErrormsg = '(error message not available)';
                     }
                 }
-                throw new Exception\RuntimeException("DOMDocument cannot parse XML: $phpErrormsg");
+                throw new Exception("DOMDocument cannot parse XML: $phpErrormsg");
             }
         } else {
-            throw new Exception\InvalidArgumentException('Invalid object/scalar provided: must'
-            . ' be of type Zend\Feed\Reader\Feed, DomDocument or string');
+            throw new Exception('Invalid object/scalar provided: must'
+            . ' be of type Mf\FeedYML\Reader\Feed, DomDocument or string');
         }
         $xpath = new DOMXPath($dom);
 
@@ -161,4 +137,18 @@ class Reader extends ZFReader
 
     }
     
+    /*удаление запрещенных символов из XML, ято бы исключить 
+    *ошабки парсера
+    * возвращает исправленый документ- строку
+    */
+    protected static function normalizeXML($string)
+    {
+        $s=mb_substr($string,0,200);
+        if (mb_strpos($s,"windows-1251")>0){
+            $string=iconv("windows-1251","windows-1251//IGNORE",$string);
+        } else {
+            $string=iconv("UTF-8","UTF-8//IGNORE",$string);
+        }
+        return $string;
+    }
 }

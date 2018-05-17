@@ -14,7 +14,6 @@ use DOMDocument;
 use Mf\FeedYML\Reader;
 use Zend\Feed\Reader\Collection;
 use Exception;
-use Zend\Feed\Reader\Feed\AbstractFeed;
 
 /**
 */
@@ -31,36 +30,6 @@ class Yml extends AbstractFeed
         parent::__construct($dom, $type);
     }
 
-    /**
-     * Get a single author
-     *
-     * @param  int $index
-     * @return string|null
-     */
-    public function getAuthor($index = 0)
-    {
-        return null;
-    }
-
-    /**
-     * Get an array with feed authors
-     *
-     * @return array
-     */
-    public function getAuthors()
-    {
-        return [];
-    }
-
-    /**
-     * Get the copyright entry
-     *
-     * @return string|null
-     */
-    public function getCopyright()
-    {
-        return "";
-    }
 
     /**
      * Get the feed creation date
@@ -76,7 +45,7 @@ class Yml extends AbstractFeed
      * Get the feed modification date
      *
      * @return DateTime
-     * @throws Exception\RuntimeException
+     * @throws Exception
      */
     public function getDateModified()
     {
@@ -120,11 +89,11 @@ class Yml extends AbstractFeed
 
 
     /**
-     * Get the feed description
+     * Get the feed name
      *
      * @return string|null
      */
-    public function getDescription()
+    public function getName()
     {
         if (array_key_exists('name', $this->data)) {
             return $this->data['name'];
@@ -139,7 +108,6 @@ class Yml extends AbstractFeed
         }
 
         $this->data['name'] = $name;
-
         return $this->data['name'];
     }
     
@@ -167,33 +135,13 @@ class Yml extends AbstractFeed
         return $this->data['company'];
     }
 
+
     /**
-     * Get the feed ID
+     * Get a url to the feed
      *
      * @return string|null
      */
-    public function getId()
-    {
-        return null;
-    }
-
-
-    /**
-     * Get the feed language
-     *
-     * @return string|null
-     */
-    public function getLanguage()
-    {
-        return null;
-    }
-
-    /**
-     * Get a link to the feed
-     *
-     * @return string|null
-     */
-    public function getLink()
+    public function getUrl()
     {
         if (array_key_exists('link', $this->data)) {
             return $this->data['link'];
@@ -212,40 +160,11 @@ class Yml extends AbstractFeed
         return $this->data['link'];
     }
 
-    /**
-     * Get a link to the feed XML
-     *
-     * @return string|null
-     */
-    public function getFeedLink()
-    {
-        return $this->getLink();
-    }
-
-    /**
-     * Get the feed generator entry
-     *
-     * @return string|null
-     */
-    public function getGenerator()
-    {
-        return null;
-    }
-
-    /**
-     * Get the feed title
-     *
-     * @return string|null
-     */
-    public function getTitle()
-    {
-        return null;
-    }
 
     /**
      * Get all currencies
      *
-     * @return Reader\Collection\Category
+     * @return Reader\Collection\Currencies
      */
     public function getCurrencies()
     {
@@ -274,7 +193,7 @@ class Yml extends AbstractFeed
     /**
      * Get all categories
      *
-     * @return Reader\Collection\Category
+     * @return Reader\Collection\Categories
      */
     public function getCategories()
     {
@@ -317,13 +236,6 @@ class Yml extends AbstractFeed
 
     }
 
-    /**
-     * Register the default namespaces for the current feed format
-     *
-     */
-    protected function registerNamespaces()
-    {
-    }
     /**
      * Return the current entry
      *
