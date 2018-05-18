@@ -7,10 +7,11 @@ use Countable;
 use Iterator;
 use Exception;
 use DateTime;
+use Mf\FeedYML\Uri;
 
 /**
 */
-class Feed /*extends AbstractFeed*/ implements Iterator, Countable
+class Feed implements Iterator, Countable
 {
     /**
      * Contains all Feed level date to append in feed output
@@ -108,6 +109,9 @@ class Feed /*extends AbstractFeed*/ implements Iterator, Countable
         if (empty($name) || ! is_string($name)) {
             throw new Exception('Недопустимое тип, разрешается только строка');
         }
+        if (mb_strlen($name)>20) {
+            throw new Exception('Слишком длинное наименование, максимальный размер 20 символов');
+        }
         $this->data['name'] = $name;
         return $this;
     }
@@ -137,6 +141,15 @@ class Feed /*extends AbstractFeed*/ implements Iterator, Countable
         if (empty($url) || ! is_string($url)) {
             throw new Exception('Недопустимое тип, разрешается только строка');
         }
+        if (mb_strlen($url)>50) {
+            throw new Exception('Слишком длинный URL, максимальный размер 50 символов');
+        }
+        if (! Uri::factory($url)->isValid() || ! Uri::factory($url)->isAbsolute()) {
+                throw new Exception(
+                    'Invalid parameter: параметр "url" должен быть в полном формате'
+                );
+        }
+
         $this->data['url'] = $url;
 
         return $this;

@@ -9,7 +9,7 @@ use DOMElement;
 use DOMXPath;
 use Mf\FeedYML\Reader;
 use Exception;
-use Zend\Feed\Reader\Entry\AbstractEntry;
+use Mf\FeedYML\Reader\Entry\AbstractEntry;
 
 
 class Yml extends AbstractEntry

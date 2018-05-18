@@ -55,7 +55,7 @@ class Reader extends ZFReader
         $oldValue = libxml_disable_entity_loader(true);
         $dom = new DOMDocument;
         
-       $string=self::normalizeXML($string);
+       $string=static::normalizeXML($string);
         
         $status = $dom->loadXML(trim($string),LIBXML_BIGLINES | LIBXML_PARSEHUGE);
         libxml_disable_entity_loader($oldValue);

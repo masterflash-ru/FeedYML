@@ -13,11 +13,11 @@ use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Mf\FeedYML\Reader\Reader;
-use Exception;
+
 
 /**
 */
-abstract class AbstractFeed
+abstract class AbstractFeed implements FeedInterface
 {
     /**
      * Parsed feed data
@@ -84,6 +84,7 @@ abstract class AbstractFeed
         } else {
             $this->data['type'] = Reader\Reader::detectType($this->domDocument);
         }
+        $this->indexEntries();
     }
 
     /**
@@ -123,7 +124,6 @@ abstract class AbstractFeed
     /**
      * Return the current entry
      *
-     * @return \Zend\Feed\Reader\Entry\EntryInterface
      */
     public function current()
     {
@@ -229,18 +229,6 @@ abstract class AbstractFeed
     public function valid()
     {
         return 0 <= $this->entriesKey && $this->entriesKey < $this->count();
-    }
-
-
-    public function __call($method, $args)
-    {
-        foreach ($this->extensions as $extension) {
-            if (method_exists($extension, $method)) {
-                return call_user_func_array([$extension, $method], $args);
-            }
-        }
-        throw new Exception('Method: ' . $method
-        . 'does not exist and could not be located on a registered Extension');
     }
 
 

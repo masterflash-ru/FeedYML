@@ -9,6 +9,7 @@ use DOMElement;
 use Zend\Feed\Uri;
 use Mf\FeedYML\Writer;
 use Mf\FeedYML\Writer\Renderer;
+use Exception;
 
 /**
 */
@@ -56,23 +57,6 @@ class Yml extends Renderer\AbstractRenderer
         $offers->appendChild($offer);
         $this->dom->appendChild($offers);
 
-        /*$this->_setTitle($this->dom, $entry);
-        $this->_setDescription($this->dom, $entry);
-        $this->_setDateCreated($this->dom, $entry);
-        $this->_setDateModified($this->dom, $entry);
-        $this->_setLink($this->dom, $entry);
-        $this->_setId($this->dom, $entry);
-        $this->_setAuthors($this->dom, $entry);
-        $this->_setEnclosure($this->dom, $entry);
-        $this->_setCommentLink($this->dom, $entry);
-        $this->_setCategories($this->dom, $entry);
-        foreach ($this->extensions as $ext) {
-            $ext->setType($this->getType());
-            $ext->setRootElement($this->getRootElement());
-            $ext->setDomDocument($this->getDomDocument(), $entry);
-            $ext->render();
-        }*/
-
         return $this;
     }
     /**
@@ -83,7 +67,7 @@ class Yml extends Renderer\AbstractRenderer
     protected function _createOffer(DOMDocument $dom,DOMElement $element)
     {
         $offer=$this->dom->createElement('offer');
-       // $text = $dom->createTextNode($this->getDataContainer()->getId());
+       
         $offer->setAttribute("id",$this->getDataContainer()->getId());
         $bid=$this->getDataContainer()->getBid();
         if ($bid){
@@ -111,9 +95,8 @@ class Yml extends Renderer\AbstractRenderer
 
     protected function _setUrl(DOMDocument $dom, DOMElement $root)
     {
-        // @codingStandardsIgnoreEnd
         if (! $this->getDataContainer()->getUrl()) {
-            return;
+            throw new Exception('Пропущен обязательный элемент url в секции offer');
         }
         $link = $dom->createElement('url');
         $root->appendChild($link);
@@ -133,7 +116,7 @@ class Yml extends Renderer\AbstractRenderer
     protected function _setPrice(DOMDocument $dom, DOMElement $root)
     {
         if (! $this->getDataContainer()->getPrice()) {
-            return;
+            throw new Exception('Пропущен обязательный элемент price в секции offer');
         }
         $price = $dom->createElement('price');
         $root->appendChild($price);
@@ -151,7 +134,7 @@ class Yml extends Renderer\AbstractRenderer
     protected function _setName(DOMDocument $dom, DOMElement $root)
     {
         if (! $this->getDataContainer()->getName()) {
-            return;
+            throw new Exception('Пропущен обязательный элемент name в секции offer');
         }
         $name = $dom->createElement('name');
         $root->appendChild($name);
@@ -275,7 +258,7 @@ class Yml extends Renderer\AbstractRenderer
     protected function _setCurrencyId(DOMDocument $dom, DOMElement $root)
     {
         if (! $this->getDataContainer()->getCurrencyId()) {
-            return;
+            throw new Exception('Пропущен обязательный элемент currencyId в секции offer');
         }
         $currencyId = $dom->createElement('currencyId');
         $root->appendChild($currencyId);
@@ -294,7 +277,7 @@ class Yml extends Renderer\AbstractRenderer
     {
         $cc=$this->getDataContainer()->getCategoryId();
         if (! $cc) {
-            return;
+            throw new Exception('Пропущен обязательный элемент categoryId в секции offer');
         }
         foreach ($cc as $c){
             $categoryId = $dom->createElement('categoryId');

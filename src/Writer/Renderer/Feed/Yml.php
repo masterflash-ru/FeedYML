@@ -15,6 +15,7 @@ use DOMElement;
 use Zend\Feed\Uri;
 use Mf\FeedYML\Writer;
 use Mf\FeedYML\Writer\Renderer;
+use Exception;
 
 
 /**
@@ -32,7 +33,7 @@ class Yml extends Renderer\AbstractRenderer
     }
 
     /**
-     * Render RSS feed
+     * Render YML feed
      *
      * @return self
      */
@@ -98,6 +99,8 @@ class Yml extends Renderer\AbstractRenderer
             $text = $dom->createTextNode($this->getDataContainer()->getName());
             $name->appendChild($text);
             $shop->appendChild($name);
+        } else {
+            throw new Exception('Пропущен обязательный элемент name в секции shop');
         }
     }
     /**
@@ -115,6 +118,8 @@ class Yml extends Renderer\AbstractRenderer
             $text = $dom->createTextNode($this->getDataContainer()->getCompany());
             $name->appendChild($text);
             $shop->appendChild($name);
+        } else {
+            throw new Exception('Пропущен обязательный элемент company в секции shop');
         }
     }
     /**
@@ -164,7 +169,7 @@ class Yml extends Renderer\AbstractRenderer
     {
         $currencies = $this->getDataContainer()->getCurrencies();
         if (! $currencies) {
-            return;
+           throw new Exception('Пропущен обязательный элемент currencies в секции shop');
         }
         $currencys = $dom->createElement('currencies');
         foreach ($currencies as $c) {
@@ -188,7 +193,7 @@ class Yml extends Renderer\AbstractRenderer
     {
         $cats = $this->getDataContainer()->getCategories();
         if (! $cats) {
-            return;
+            throw new Exception('Пропущен обязательный элемент categories в секции shop');
         }
         $categories = $dom->createElement('categories');
         foreach ($cats as $c) {

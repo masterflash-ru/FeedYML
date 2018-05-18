@@ -70,8 +70,8 @@ class Yml extends AbstractFeed
                         } catch (\Exception $e) {
                             if ($standard === null) {
                                 throw new Exception(
-                                    'Could not load date due to unrecognised'
-                                    .' format (should follow RFC 822 or 2822):'
+                                    'невозможно загрузить дату'
+                                    .'допускаются форматы ("Y-m-d H:i","Y-m-d H:i:s") :'
                                     . $e->getMessage(),
                                     0,
                                     $e
@@ -239,7 +239,7 @@ class Yml extends AbstractFeed
     /**
      * Return the current entry
      *
-     * @return \Zend\Feed\Reader\Entry\EntryInterface
+     * @return \Mf\FeedYML\Reader\Entry\EntryInterface
      */
     public function current()
     {
