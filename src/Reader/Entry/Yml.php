@@ -138,7 +138,7 @@ class Yml extends AbstractEntry
      *
      * @return array
      */
-    public function getPictures()
+    public function getPicturies()
     {
         if (array_key_exists('offer_pictures', $this->data)) {
             return $this->data['offer_pictures'];
@@ -176,10 +176,6 @@ class Yml extends AbstractEntry
      */
     public function getPicture($index = 0)
     {
-        if (! array_key_exists('offer_pictures', $this->data)) {
-            $this->getLinks();
-        }
-
         if (isset($this->data['offer_pictures'][$index])) {
             return $this->data['offer_pictures'][$index];
         }
