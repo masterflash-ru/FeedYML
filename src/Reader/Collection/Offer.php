@@ -4,7 +4,7 @@
  */
 namespace Mf\FeedYML\Reader\Collection;
 
-use Zend\Feed\Reader\Collection\AbstractCollection;
+use Laminas\Feed\Reader\Collection\AbstractCollection;
 
 class Offer extends AbstractCollection
 {

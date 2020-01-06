@@ -7,8 +7,8 @@ namespace Mf\FeedYML\Reader;
 use DOMDocument;
 use Exception;
 use DOMXPath;
-use Zend\Stdlib\ErrorHandler;
-use Zend\Feed\Reader\Reader as ZFReader;
+use Laminas\Stdlib\ErrorHandler;
+use Laminas\Feed\Reader\Reader as ZFReader;
 
 class Reader extends ZFReader
 {

@@ -318,7 +318,7 @@ class Feed implements Iterator, Countable
     }
 
     /**
-     * Appends a Zend\Feed\Writer\Entry object representing a new entry/item
+     * Appends a Laminas\Feed\Writer\Entry object representing a new entry/item
      * the feed data container's internal group of entries.
      *
      * @param Entry $entry

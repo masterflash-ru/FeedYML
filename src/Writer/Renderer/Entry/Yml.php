@@ -6,7 +6,7 @@ namespace Mf\FeedYML\Writer\Renderer\Entry;
 use DateTime;
 use DOMDocument;
 use DOMElement;
-use Zend\Feed\Uri;
+use Laminas\Feed\Uri;
 use Mf\FeedYML\Writer;
 use Mf\FeedYML\Writer\Renderer;
 use Exception;

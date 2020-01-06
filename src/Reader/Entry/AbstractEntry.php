@@ -205,7 +205,7 @@ abstract class AbstractEntry
     }
 
     /**
-     * Load extensions from Zend\Feed\Reader\Reader
+     * Load extensions from Laminas\Feed\Reader\Reader
      *
      * @return void
      * /
