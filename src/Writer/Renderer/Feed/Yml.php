@@ -56,6 +56,8 @@ class Yml extends Renderer\AbstractRenderer
         
         $yml_catalog->appendChild($shop);
         $this->dom->appendChild($yml_catalog);
+        $offers = $this->dom->createElement('offers');
+        $yml_catalog->appendChild($offers);
 
         foreach ($this->container as $entry) {
             if ($this->getDataContainer()->getEncoding()) {
@@ -74,7 +76,7 @@ class Yml extends Renderer\AbstractRenderer
             $element = $renderer->getElement();
             $deep = version_compare(PHP_VERSION, '7', 'ge') ? 1 : true;
             $imported = $this->dom->importNode($element, $deep);
-            $yml_catalog->appendChild($imported);
+            $offers->appendChild($imported);
         }
         return $this;
     }

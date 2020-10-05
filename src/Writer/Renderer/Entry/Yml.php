@@ -35,8 +35,8 @@ class Yml extends Renderer\AbstractRenderer
         $this->dom = new DOMDocument('1.0', $this->container->getEncoding());
         $this->dom->formatOutput = true;
         $this->dom->substituteEntities = false;
-        $offers = $this->dom->createElement('offers');
-        $offer=$this->_createOffer($this->dom, $offers);
+        $offer=$this->_createOffer($this->dom);
+        $this->_setName($this->dom, $offer);
         $this->_setUrl($this->dom, $offer);
         $this->_setPrice($this->dom, $offer);
         $this->_setCurrencyId($this->dom, $offer);
@@ -44,7 +44,6 @@ class Yml extends Renderer\AbstractRenderer
         $this->_setPicture($this->dom, $offer);
         $this->_setStore($this->dom, $offer);
         $this->_setDelivery($this->dom, $offer);
-        $this->_setName($this->dom, $offer);
         $this->_setVendor($this->dom, $offer);
         $this->_setModel($this->dom, $offer);
         $this->_setDescription($this->dom, $offer);
@@ -54,8 +53,7 @@ class Yml extends Renderer\AbstractRenderer
         $this->_setManufacturer_warranty($this->dom, $offer);
         $this->_setParams($this->dom, $offer);
         
-        $offers->appendChild($offer);
-        $this->dom->appendChild($offers);
+        $this->dom->appendChild($offer);
 
         return $this;
     }
@@ -64,7 +62,7 @@ class Yml extends Renderer\AbstractRenderer
      *@param  DOMElement $element
      * @return void
      */
-    protected function _createOffer(DOMDocument $dom,DOMElement $element)
+    protected function _createOffer(DOMDocument $dom)
     {
         $offer=$this->dom->createElement('offer');
        
